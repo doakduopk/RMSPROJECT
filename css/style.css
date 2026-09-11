@@ -8,7 +8,7 @@
 }
 
 body {
-    background: var(--bg-color);
+    background-image: url("../Assets/images/bg.png");
     color: var(--text-color);
     font-family: Arial, sans-serif;
     line-height: 1.6;

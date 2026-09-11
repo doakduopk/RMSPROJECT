@@ -1,0 +1,7 @@
+# Ignore database files
+*.sql
+*.db
+/database/
+.env
+/vendor/
+

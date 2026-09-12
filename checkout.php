@@ -55,34 +55,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             echo "<main><div class='checkout-container'>
-                    <p style='color:green;'>Payment successful! Your order #".$_SESSION['last_order_id']." has been placed.</p>
-                    <p><a href='order_history.php'>View your order history</a></p>
+                    <p class='alert-success'>Payment successful! Your order #".$_SESSION['last_order_id']." has been placed.</p>
+                    <p><a href='order_history.php' class='checkout-link'>View your order history</a></p>
                   </div></main>";
             include("includes/footer.php");
             exit();
         } else {
             echo "<main><div class='checkout-container'>
-                    <p style='color:red;'>Your cart is empty.</p>
+                    <p class='alert-error'>Your cart is empty.</p>
                   </div></main>";
         }
-    } else {
-        echo "<main><div class='Checkout-Container'>
-                <p style='color:red;'>Please fill in all payment fields.</p>
-              </div></main>";
-    }
+    } 
 }
 ?>
 
 <main>
   <div class='checkout-container'>
+       
     <h1>Checkout</h1>
-    <form method='POST'>
+    <form method='POST' class='checkout-form'>
       <input type='text' name='card_number' placeholder='Card Number' required>
       <input type='text' name='expiry' placeholder='MM/YY' required>
       <input type='text' name='cvv' placeholder='CVV' required>
-      <button type='submit'>Pay Now</button>
+      <button type='submit' class='btn btn-primary'>Pay Now</button>
     </form>
-    <p>Secure payment processing demo</p>
+    <p class='checkout-note'>Secure payment processing demo</p>
   </div>
 </main>
 

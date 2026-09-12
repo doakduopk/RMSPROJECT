@@ -13,4 +13,4 @@
 WHERE item_id = $item_id";
 
             return $conn->query($sql);
-            }
+} 

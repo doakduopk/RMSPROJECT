@@ -4,8 +4,8 @@ include("../includes/db.php");
 include("../includes/auth.php");
 include("../includes/header.php");
 ?>
-<main>
-  <h1 style="text-align:center; color:#007bff; margin-bottom:30px;">Recipes</h1>
+<main class="recipes-main">
+  <h1 class="recipes-title">Recipes</h1>
   <div class="recipes-container">
     <?php
 
@@ -17,14 +17,14 @@ include("../includes/header.php");
 
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo "<div class='recipe-card' >";
-            echo "<h4 style='color:#007bff;'>".htmlspecialchars($row['name'])."</h4>";
+            echo "<div class='recipe-card'>";
+            echo "<h4 class='recipe-card-title'>".htmlspecialchars($row['name'])."</h4>";
             echo "<p><strong>Ingredients:</strong> ".htmlspecialchars($row['ingredients'])."</p>";
             echo "<p><strong>Steps:</strong> ".htmlspecialchars($row['steps'])."</p>";
             echo "</div>";
         }
     } else {
-        echo "<p style='text-align:center; color:#6c757d;'>No approved recipes found.</p>";
+        echo "<p class='no-recipes-msg'>No approved recipes found.</p>";
     }
     ?>
   </div>

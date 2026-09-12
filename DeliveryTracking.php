@@ -10,7 +10,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
 }
 
 if (!isset($_GET['order_id'])) {
-    echo "<main><p style='color:red; text-align:center;'>No order selected.</p></main>";
+    echo "<main><p class='no-order-msg'>No order selected.</p></main>";
     include("includes/footer.php");
     exit();
 }
@@ -25,7 +25,7 @@ if ($delivery_info && $row = $delivery_info->fetch_assoc()) {
     echo "<p><strong>Status:</strong> " . htmlspecialchars($row['status']) . "</p>";
     echo "<p><strong>Current Location:</strong> " . htmlspecialchars($row['gps_location']) . "</p>";
 } else {
-    echo "<p style='color:red;'>No delivery information found for this order. Maybe it hasn't shipped yet?</p>";
+    echo "<p class='no-delivery-info'>No delivery information found for this order. Maybe it hasn't shipped yet?</p>";
 }
 
 echo "</div></main>";

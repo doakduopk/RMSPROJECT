@@ -11,7 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 include("../includes/header.php");
 
 if (!isset($_GET['message_id'])) {
-    echo "<p style='color:red; text-align:center;'>No message selected.</p>";
+    echo "<p class='alert-error'>No message selected.</p>";
     include("../includes/footer.php");
     exit();
 }
@@ -22,7 +22,7 @@ $query = "SELECT * FROM contact_messages WHERE message_id = $message_id";
 $result = $conn->query($query);
 
 if (!$result || $result->num_rows === 0) {
-    echo "<p style='color:red; text-align:center;'>Message not found.</p>";
+    echo "<p class='alert-error'>Message not found.</p>";
     include("../includes/footer.php");
     exit();
 }
@@ -34,14 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reply'])) {
     $update = "UPDATE contact_messages SET reply = '$reply', replied_at = NOW() WHERE message_id = $message_id";
 
     if ($conn->query($update)) {
-        echo "<main><div style='text-align:center; color:green;'>
-                <p>Reply sent successfully!</p>
+        echo "<main><div class='reply-success-box'>
+                <p class='alert-success'>Reply sent successfully!</p>
                 <p><a href='view_messages.php'>Back to Messages</a></p>
               </div></main>";
         include("../includes/footer.php");
         exit();
     } else {
-        echo "<p style='color:red; text-align:center;'>Error saving reply: " . htmlspecialchars($conn->error) . "</p>";
+        echo "<p class='alert-error'>Error saving reply: " . htmlspecialchars($conn->error) . "</p>";
     }
 }
 ?>

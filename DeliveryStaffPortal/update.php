@@ -14,9 +14,9 @@ $delivery_id = isset($_GET['delivery_id']) ? (int)$_GET['delivery_id'] : 0;
         $gps = $conn->real_escape_string($_POST['gps']);
         $sql = "UPDATE delivery SET status='$status', gps_location='$gps' WHERE delivery_id=$delivery_id";
         if ($conn->query($sql)) {
-            echo "<p style='color:green;'>Delivery updated successfully!</p>";
+            echo "<p class='alert-success'>Delivery updated successfully!</p>";
         } else {
-            echo "<p style='color:red;'>Error: ".$conn->error."</p>";
+            echo "<p class='alert-error'>Error: " . htmlspecialchars($conn->error) . "</p>";
         }
     }
     ?>

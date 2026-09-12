@@ -31,13 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recipe_id'])) {
 }
 ?>
 <main>
-  <h1 style="text-align:center; color:#28a745; margin-bottom:30px;">Manage Menu</h1>
+  <h1 class="page-title">Manage Menu</h1>
 
-  <?php
-  if (isset($_GET['updated'])) {
-      echo "<p style='text-align:center; color:green;'>Menu item saved successfully! It now appears on the customer page.</p>";
-  }
-  ?>
+<?php
+if (isset($_GET['updated'])) {
+    echo "<p class=\"alert-success\">Menu item saved successfully! It now appears on the customer page.</p>";
+}
+?>
 
   <div class="menu-grid">
     <?php

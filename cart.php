@@ -11,6 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'customer') {
     exit();
 }
 
+
 if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['item_id'])) {
     $item_id = intval($_GET['item_id']);
 
@@ -27,6 +28,18 @@ if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['item_id'
     header("Location: cart.php");
     exit;
 }
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'remove' && isset($_GET['item_id'])) {
+    $item_id = intval($_GET['item_id']);
+
+    if (isset($_SESSION['cart'][$item_id])) {
+        unset($_SESSION['cart'][$item_id]);
+    }
+
+    header("Location: cart.php");
+    exit;
+}
 ?>
 
 <main>
@@ -35,8 +48,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['item_id'
     <?php
     if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         echo "<p>Your cart is empty.</p>";
+        echo "<a href='index.php' class='btn btn-secondary'>Browse Items</a>";
     } else {
-        echo "<table>
+        echo "<table class='cart-table'>
                 <tr>
                   <th>Image</th>
                   <th>Item</th>
@@ -63,26 +77,27 @@ if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['item_id'
                 $img = !empty($item['image_path']) ? $item['image_path'] : "Assets/images/default.png";
 
                 echo "<tr>
-                        <td><img src='".htmlspecialchars($img)."' alt='".htmlspecialchars($item['name'])."' width='80' ></td>
+                        <td><img src='".htmlspecialchars($img)."' alt='".htmlspecialchars($item['name'])."' class='cart-item-img'></td>
                         <td>".htmlspecialchars($item['name'])."</td>
                         <td>".$quantity."</td>
                         <td>$".$item['price']."</td>
                         <td>$".$total."</td>
                         <td>
-                          <form method='POST' action='remove.php'>
-                            <input type='hidden' name='item_id' value='".$item_id."'>
-                            <button type='submit'>Remove</button>
-                          </form>
+                          <a href='cart.php?action=remove&item_id=".$item_id."' class='btn btn-danger'>Delete</a>
                         </td>
                       </tr>";
             }
         }
 
         echo "</table>";
-        echo "<p>Grand Total: $".$grand_total."</p>";
-        echo "<form method='POST' action='checkout.php'>
-                <button type='submit'>Proceed to Checkout</button>
-              </form>";
+        echo "<h3 class='grand-total'>Grand Total: $".$grand_total."</h3>";
+        
+        echo "<div class='cart-actions'>
+                <a href='index.php' class='btn btn-secondary'>Continue Shopping</a>
+                <form method='POST' action='checkout.php' class='checkout-form'>
+                  <button type='submit' class='btn btn-primary'>Proceed to Checkout</button>
+                </form>
+              </div>";
     }
     ?>
   </div>

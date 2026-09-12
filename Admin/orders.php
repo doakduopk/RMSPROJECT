@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['n
     $new_status = trim($_POST['new_status']);
 
     if (updateOrderStatus($conn, $order_id, $new_status)) {
-        echo "<p style='color:green; text-align:center;'>Order #$order_id updated to $new_status successfully.</p>";
+        echo "<p class='alert-msg-success'>Order #$order_id updated to $new_status successfully.</p>";
     } else {
-        echo "<p style='color:red; text-align:center;'>Failed to update order status.</p>";
+        echo "<p class='alert-msg-error'>Failed to update order status.</p>";
     }
 }
 
@@ -38,7 +38,7 @@ $result = $conn->query($query);
     <?php
     if ($result && $result->num_rows > 0) {
         echo "<table>
-                <tr style='background-color:#f8f9fa;'>
+                <tr class='table-header'>
                   <th>Order ID</th>
                   <th>Customer</th>
                   <th>Email</th>
@@ -50,26 +50,26 @@ $result = $conn->query($query);
                   <th>Action</th>
                 </tr>";
         while ($row = $result->fetch_assoc()) {
-            $statusColor = match ($row['order_status']) {
-                'pending' => '#ffc107',
-                'preparing' => '#17a2b8',
-                'out for delivery' => '#007bff',
-                'delivered' => '#28a745',
-                'cancelled' => '#dc3545',
-                default => '#6c757d',
+            $statusClass = match ($row['order_status']) {
+                'pending' => 'status-pending',
+                'preparing' => 'status-preparing',
+                'out for delivery' => 'status-out-for-delivery',
+                'delivered' => 'status-delivered',
+                'cancelled' => 'status-cancelled',
+                default => 'status-default',
             };
 
-            echo "<tr style='border-bottom:1px solid #ddd;'>
+            echo "<tr class='table-row'>
                     <td>{$row['order_id']}</td>
                     <td>".htmlspecialchars($row['username'])."</td>
                     <td>".htmlspecialchars($row['email'])."</td>
-                    <td><span style='color:$statusColor; font-weight:bold;'>".htmlspecialchars($row['order_status'])."</span></td>
+                    <td><span class='status-badge {$statusClass}'>".htmlspecialchars($row['order_status'])."</span></td>
                     <td>".htmlspecialchars($row['delivery_status'] ?? 'N/A')."</td>
                     <td>".htmlspecialchars($row['gps_location'] ?? 'N/A')."</td>
                     <td>{$row['order_date']}</td>
                     <td>$".htmlspecialchars($row['total_amount'])."</td>
                     <td>
-                      <form method='POST' style='display:inline;'>
+                      <form method='POST' class='status-form'>
                         <input type='hidden' name='order_id' value='{$row['order_id']}'>
                         <select name='new_status'>
                           <option value='pending' ".($row['order_status']=='pending'?'selected':'').">Pending</option>
@@ -78,14 +78,14 @@ $result = $conn->query($query);
                           <option value='delivered' ".($row['order_status']=='delivered'?'selected':'').">Delivered</option>
                           <option value='cancelled' ".($row['order_status']=='cancelled'?'selected':'').">Cancelled</option>
                         </select>
-                        <button type='submit' style='background-color:#28a745; color:white; border:none; padding:5px 10px; border-radius:5px;'>Update</button>
+                        <button type='submit' class='btn-update'>Update</button>
                       </form>
                     </td>
                   </tr>";
         }
         echo "</table>";
     } else {
-        echo "<p style='text-align:center;'>No orders found.</p>";
+        echo "<p class='no-orders-msg'>No orders found.</p>";
     }
     ?>
   </div>

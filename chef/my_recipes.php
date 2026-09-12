@@ -39,9 +39,9 @@ $result = $conn->query("SELECT * FROM recipes WHERE created_by = $chef_id ORDER 
           <td><?= htmlspecialchars($row['status']) ?></td>
           <td>
             <?php if ($row['status'] === 'rejected'): ?>
-              <a href="edit_recipe.php?id=<?= $row['recipe_id'] ?>" style="color:orange;">Edit</a>
+              <a href="edit_recipe.php?id=<?= $row['recipe_id'] ?>" class="btn btn-warning">Edit</a>
             <?php else: ?>
-              <span style="color:gray;">No Action</span>
+              <span class="alert-msg-success">No Action</span>
             <?php endif; ?>
           </td>
         </tr>

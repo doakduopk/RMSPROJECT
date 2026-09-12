@@ -28,13 +28,13 @@ $orders = $conn->query($query);
 ?>
 
 <main>
-  <div class='history-container'  style='width:90%; margin:auto;'>
-    <h1 style='text-align:center; color:#007bff;'>Order History</h1>
+  <div class="history-container">
+    <h1>Order History</h1>
 
     <?php
     if ($orders && $orders->num_rows > 0) {
-        echo "<table style='width:100%; border-collapse:collapse; text-align:center;'>
-                <tr style='background-color:#f8f9fa;'>
+        echo "<table class='order-history-table'>
+                <tr class='table-header'>
                   <th>Image</th>
                   <th>Order ID</th>
                   <th>Item</th>
@@ -45,22 +45,22 @@ $orders = $conn->query($query);
                 </tr>";
 
         while ($row = $orders->fetch_assoc()) {
-            echo "<tr style='border-bottom:1px solid #ddd;'>
+            echo "<tr class='table-row'>
                     <td><img src='".htmlspecialchars($row['recipe_image'])."'
                              alt='".htmlspecialchars($row['recipe_name'])."'
-                             width='80' style='border-radius:6px;'></td>
+                             class='item-img'></td>
                     <td>".$row['order_id']."</td>
                     <td>".htmlspecialchars($row['recipe_name'])."</td>
                     <td>".$row['quantity']."</td>
                     <td>".htmlspecialchars($row['status'])."</td>
                     <td>".$row['order_date']."</td>
-                    <td><a href='deliveryTracking.php?order_id=".$row['order_id']."' style='color:blue;'>Track</a></td>
+                    <td><a href='deliveryTracking.php?order_id=".$row['order_id']."' class='track-link'>Track</a></td>
                   </tr>";
         }
 
         echo "</table>";
     } else {
-        echo "<p style='text-align:center; color:#6c757d;'>No past orders found.</p>";
+        echo "<p class='no-orders-msg'>No past orders found.</p>";
     }
     ?>
   </div>

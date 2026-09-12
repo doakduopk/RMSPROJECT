@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'], $_POST['ingre
                 VALUES ('$name', '$ingredients', '$steps', '$instructions', '$imagePath')";
 
         if ($conn->query($sql)) {
-            echo "<p style='color:green;'>Recipe added successfully! Awaiting admin review.</p>";
+            echo "<p class='alert-success'>Recipe added successfully! Awaiting admin review.</p>";
         } else {
-            echo "<p style='color:red;'>Error: " . $conn->error . "</p>";
+            echo "<p class='alert-error'>Error: " . htmlspecialchars($conn->error) . "</p>";
         }
     } else {
-        echo "<p style='color:red;'>Image upload failed.</p>";
+        echo "<p class='alert-error'>Image upload failed.</p>";
     }
 }
 ?>

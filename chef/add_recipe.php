@@ -9,7 +9,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'chef') {
 }
 
 include("../includes/header.php");
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'], $_POST['ingredients'], $_POST['steps'], $_POST['instructions'], $_FILES['image'])) {
     $name = $conn->real_escape_string($_POST['name']);
     $ingredients = $conn->real_escape_string($_POST['ingredients']);
@@ -27,12 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'], $_POST['ingre
                 VALUES ('$name', '$ingredients', '$steps', '$instructions', '$imagePath', 'pending', '{$_SESSION['user_id']}')";
 
         if ($conn->query($sql)) {
-            echo "<p style='color:green; text-align:center;'>Recipe submitted successfully! Awaiting admin approval.</p>";
+            echo "<p class='alert-success'>Recipe submitted successfully! Awaiting admin approval.</p>";
         } else {
-            echo "<p style='color:red; text-align:center;'>Error: " . $conn->error . "</p>";
+            echo "<p class='alert-error'>Error: " . htmlspecialchars($conn->error) . "</p>";
         }
     } else {
-        echo "<p style='color:red; text-align:center;'>Image upload failed.</p>";
+        echo "<p class='alert-error'>Image upload failed.</p>";
     }
 }
 ?>

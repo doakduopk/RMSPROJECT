@@ -47,18 +47,6 @@ $staffCount = $conn->query("SELECT COUNT(*) AS c FROM users WHERE role='staff'")
 </section>
 
 
-  <!-- Quick Links -->
-  <section class="quick-links">
-    <h2>Quick Links</h2>
-    <ul>
-      <li><a href="manage_recipes.php">Manage Recipes</a></li>
-      <li><a href="menu.php">Manage Menu</a></li>
-      <li><a href="orders.php">Manage Orders</a></li>
-      <li><a href="delivery.php">Assign Delivery</a></li>
-      <li><a href="reports.php">View Reports</a></li>
-      <li><a href="view_messages.php">View Customer Messages</a></li>
-    </ul>
-  </section>
 </main>
 
 <?php include("../includes/footer.php"); ?>

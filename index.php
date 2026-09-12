@@ -4,10 +4,69 @@ session_start();
 require_once(__DIR__ . "/includes/db.php");
 include(__DIR__ . "/includes/header.php");
 ?>
+
 <main>
-  <h2 style="color:#007bff;">Welcome to Our Hotel Restaurant</h2>
-  <p>Browse our featured dishes or explore the full menu below.</p>
-  <a href="order_history.php"> view your past orders </a>
+  <h2 class="welcome">Welcome to Our Hotel Restaurant</h2>
+  <p class="browse-feature">Browse our featured dishes or explore the full menu below.</p>
+  
+  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'customer'): ?>
+    <section class="view-paste-orders"><a href="order_history.php">View your past orders</a></section>
+  <?php endif; ?>
+
+  <?php
+  if (isset($_SESSION['user_id'])) {
+      $current_user_id = (int)$_SESSION['user_id'];
+      
+      if (!isset($_SESSION['viewed_reply_ids'])) {
+          $_SESSION['viewed_reply_ids'] = array();
+      }
+
+      $viewed_ids_clause = "";
+      if (!empty($_SESSION['viewed_reply_ids'])) {
+          $clean_ids = array_map('intval', $_SESSION['viewed_reply_ids']);
+          $viewed_ids_clause = " OR id IN (" . implode(",", $clean_ids) . ") OR message_id IN (" . implode(",", $clean_ids) . ")";
+      }
+
+      $reply_result = $conn->query("
+          SELECT * FROM contact_messages 
+          WHERE user_id = $current_user_id 
+            AND reply IS NOT NULL 
+            AND reply != '' 
+            AND (is_read_by_user = 0 $viewed_ids_clause)
+          ORDER BY replied_at DESC
+      ");
+
+      if ($reply_result && $reply_result->num_rows > 0) {
+          echo "<section class='home-replies-section'>";
+          echo "<h2>Admin Replies to Your Messages</h2>";
+          while ($row = $reply_result->fetch_assoc()) {
+              // Get whichever primary key exists in your database table (id or message_id)
+              $msg_id = $row['id'] ?? $row['message_id'] ?? null;
+
+              if ($msg_id !== null) {
+                  if (!in_array($msg_id, $_SESSION['viewed_reply_ids'])) {
+                      $_SESSION['viewed_reply_ids'][] = $msg_id;
+                  }
+
+                  if ($row['is_read_by_user'] == 0) {
+                      // Dynamically detect column name to prevent SQL errors
+                      $id_col = isset($row['message_id']) ? 'message_id' : 'id';
+                      $conn->query("UPDATE contact_messages SET is_read_by_user = 1 WHERE $id_col = $msg_id");
+                  }
+              }
+
+              echo "<div class='home-reply-card'>";
+              echo "<p><strong>Your Question:</strong> " . htmlspecialchars($row['message']) . "</p>";
+              echo "<div class='reply-body'>";
+              echo "<p><strong>Admin Answer:</strong> " . htmlspecialchars($row['reply']) . "</p>";
+              echo "<small>Replied at: " . $row['replied_at'] . "</small>";
+              echo "</div>";
+              echo "</div>";
+          }
+          echo "</section>";
+      }
+  }
+  ?>
 
   <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
     <section class="admin-dashboard">
@@ -26,7 +85,6 @@ include(__DIR__ . "/includes/header.php");
     <h3>Featured Dishes</h3>
     <div class="featured-grid">
       <?php
-
       $sql = "SELECT maximum.item_id, maximum.price, r.name, r.ingredients, r.image_path
               FROM menu_items AS maximum
               INNER JOIN recipes AS r ON maximum.recipe_id = r.recipe_id
@@ -56,7 +114,6 @@ include(__DIR__ . "/includes/header.php");
   <section class="menu">
     <h3>Full Menu</h3>
     <?php
-
     $filter_clauses = ["r.status='approved'"];
 
     if (!empty($_GET['search'])) {
@@ -109,7 +166,7 @@ include(__DIR__ . "/includes/header.php");
 
             echo "<div class='menu-grid'>";
             while($item = $items->fetch_assoc()) {
-                echo "<div class='menu-item' >";
+                echo "<div class='menu-item'>";
                 echo "<img src='".htmlspecialchars($item['image_path'])."' alt='".htmlspecialchars($item['name'])."'>";
                 echo "<h4>".htmlspecialchars($item['name'])."</h4>";
                 echo "<p>".htmlspecialchars($item['ingredients'])."</p>";

@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
     $recipe = $result->fetch_assoc();
 
     if (!$recipe) {
-        echo "<p style='color:red;'>Recipe not found or not yours.</p>";
+        echo "<p class='alert-error'>Recipe not found or not yours.</p>";
         exit();
     }
 
@@ -37,9 +37,9 @@ if (isset($_GET['id'])) {
                 WHERE recipe_id=$id AND created_by=$chef_id";
 
         if ($conn->query($sql)) {
-            echo "<p style='color:green;'>Recipe updated successfully! Resubmitted for admin approval.</p>";
+            echo "<p class='alert-success'>Recipe updated successfully! Resubmitted for admin approval.</p>";
         } else {
-            echo "<p style='color:red;'>Error: " . $conn->error . "</p>";
+            echo "<p class='alert-error'>Error: " . htmlspecialchars($conn->error) . "</p>";
         }
     }
 }

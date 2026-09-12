@@ -14,15 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['e
     $check_email = $conn->query("SELECT user_id FROM users WHERE email='$email'");
 
     if ($check_email && $check_email->num_rows > 0) {
-        echo "<p style='color:red; text-align:center;'>Email already registered. <a href='login.php'>Login here</a></p>";
+        echo "<p class='alert-msg-error'>Email already registered. <a href='login.php'>Login here</a></p>";
     } else {
         $sql = "INSERT INTO users (username, email, password, role, created_at)
                 VALUES ('$username', '$email', '$hashed_password', '$role', NOW())";
 
         if ($conn->query($sql)) {
-            echo "<p style='color:green; text-align:center;'>Registration successful! <a href='login.php'>Login here</a></p>";
+            echo "<p class='alert-msg-success'>Registration successful! <a href='login.php'>Login here</a></p>";
         } else {
-            echo "<p style='color:red; text-align:center;'>Error: " . $conn->error . "</p>";
+            echo "<p class='alert-msg-error'>Error: " . htmlspecialchars($conn->error) . "</p>";
         }
     }
 }
@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['e
       <input type="text" name="username" placeholder="Username" required>
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
-      
       
       <select name="role" required>
         <option value="customer">Customer</option>

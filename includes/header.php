@@ -66,7 +66,7 @@ require_once(__DIR__ . "/db.php");
           <div><li><a href="/RMSPROJECT/index.php">Home</a></li></div>
           <div><li><a href="/RMSPROJECT/cart.php">Cart</a></li></div>
           <div><li><a href="/RMSPROJECT/order_history.php">Order History</a></li></div>
-          <div><li><a href="/RMSPROJECT/contact.php">Contact-Us</a></li></div>
+          <div><li><a href="/RMSPROJECT/contact.php">Contact</a></li></div>
         <?php endif; ?>
         <div><li><a href="/RMSPROJECT/logout.php">Log Out</a></li></div>
       <?php else: ?>

@@ -127,7 +127,21 @@ form button:hover {
     color: #fff;
 }
 
-.featured h3 {
+.nav-link-message {
+    background-color: #138af2;
+    padding: 3px 8px;
+    width: 180px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: large;
+}
+
+.nav-link-message :hover {
+    color: #fff;
+}
+
+reply-container .featured h3 {
     color: #fff;
 }
 
@@ -1449,6 +1463,81 @@ a {
 
 .btn-secondary:hover {
     background-color: #5a6268;
+}
+
+.reply-success-box {
+    text-align: center;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.reply-success-box a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.reply-success-box a:hover {
+    text-decoration: underline;
+}
+
+.nav-link-messages {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.badge {
+    background-color: #dc3545;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 12px;
+    line-height: 1;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.user-replies-container,
+.home-replies-section {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.message-reply-card,
+.home-reply-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admin-reply-box {
+    background-color: #eef9f1;
+    border-left: 4px solid #28a745;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.status-pending {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.msg-date,
+.reply-date {
+    display: block;
+    color: #888888;
+    font-size: 0.8rem;
+    margin-top: 4px;
 }
 
 .pagination {
